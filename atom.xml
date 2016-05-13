@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-04-16T10:43:53.685Z</updated>
+  <updated>2016-05-13T16:02:08.894Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,266 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://yoursite.com/2016/05/14/QR%20code/"/>
+    <id>http://yoursite.com/2016/05/14/QR code/</id>
+    <published>2016-05-13T16:02:20.093Z</published>
+    <updated>2016-05-13T16:02:08.894Z</updated>
+    
+    <content type="html">&lt;p&gt;##生成二维码&lt;br&gt;    import com.google.zxing.common.BitMatrix;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import javax.imageio.ImageIO;
+import java.io.File;
+import java.io.OutputStream;
+import java.io.IOException;
+import java.awt.image.BufferedImage;
+
+public final class MatrixToImageWriter {
+
+    private static final int BLACK = 0xFF000000;
+    private static final int WHITE = 0xFFFFFFFF;
+
+    private MatrixToImageWriter() {
+
+    }
+
+    public static BufferedImage toBufferedImage(BitMatrix matrix) {
+        int width = matrix.getWidth();
+        int height = matrix.getHeight();
+        BufferedImage image = new BufferedImage(width, height,
+                BufferedImage.TYPE_INT_RGB);
+        for (int x = 0; x &amp;lt; width; x++) {
+            for (int y = 0; y &amp;lt; height; y++) {
+                image.setRGB(x, y, matrix.get(x, y) ? BLACK : WHITE);
+            }
+        }
+        return image;
+    }
+
+    public static void writeToFile(BitMatrix matrix, String format, File file)
+            throws IOException {
+        BufferedImage image = toBufferedImage(matrix);
+        if (!ImageIO.write(image, format, file)) {
+            throw new IOException(&amp;quot;Could not write an image of format &amp;quot;
+                    + format + &amp;quot; to &amp;quot; + file);
+        }
+    }
+
+    public static void writeToStream(BitMatrix matrix, String format,
+            OutputStream stream) throws IOException {
+        BufferedImage image = toBufferedImage(matrix);
+        if (!ImageIO.write(image, format, stream)) {
+            throw new IOException(&amp;quot;Could not write an image of format &amp;quot;
+                    + format);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;数据库连接&lt;/strong&gt;&lt;/p&gt;&lt;br&gt;    &lt;font size=&quot;“0.8e”&quot;&gt;注：根据需求是否用到数据库&lt;/font&gt;&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class DB {
+    public static void main(String[] args) {
+        System.out.println(DB.getConnection());
+    }
+
+
+    public static Connection getConnection(){
+        Connection conn = null;
+        String driver = &amp;quot;com.mysql.jdbc.Driver&amp;quot;;
+        String url = &amp;quot;jdbc:mysql://localhost:3306/lanpuelevator?user=root&amp;amp;password=1908366654&amp;amp;characterEncoding=UTF-8&amp;amp;mysqlEncoding=UTF-8&amp;quot;;
+        try {
+            Class.forName(driver);
+            conn = DriverManager.getConnection(url);
+
+        } catch (ClassNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return conn;
+    }
+
+    public static PreparedStatement createPST(Connection conn, String sql) {
+        PreparedStatement PST = null;
+        try {
+            PST = conn.prepareStatement(sql);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return PST;
+    }
+
+    public static ResultSet getRs(PreparedStatement PST) {
+        ResultSet rs = null;
+        try {
+            rs = PST.executeQuery();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return rs;
+    }
+
+
+    public static void closeConn(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void closePST(PreparedStatement PST) {
+        if (PST != null) {
+            try {
+                PST.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void closeRS(ResultSet rs) {
+        if (rs != null) {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Test1 用到数据库&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import java.io.File;  
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Hashtable;  
+import java.util.Map;
+
+import com.google.zxing.BarcodeFormat;  
+import com.google.zxing.EncodeHintType;  
+import com.google.zxing.MultiFormatWriter;  
+import com.google.zxing.common.BitMatrix;  
+@SuppressWarnings(&amp;quot;unchecked&amp;quot;)
+public class Test {  
+
+
+    public static void main(String[] args) throws Exception {
+        //链接地址  
+        String text = &amp;quot;http://60.2.39.228:18080/x5/UI2/v_/elevator/mainActivity.w?device=m&amp;amp;id=&amp;quot;;  
+        int width = 300;  
+        int height = 300;  
+        //二维码的图片格式  
+        String format = &amp;quot;png&amp;quot;;  
+        Hashtable hints = new Hashtable();  
+        //内容所使用编码  
+        hints.put(EncodeHintType.CHARACTER_SET, &amp;quot;utf-8&amp;quot;);  
+
+        Map&amp;lt;String,String&amp;gt; ids = getIds();
+
+        for(String id : ids.keySet()){
+                BitMatrix bitMatrix = new MultiFormatWriter().encode(text+id,  
+                    BarcodeFormat.QR_CODE, width, height, hints);  
+
+            id = id.replace(&amp;quot;/&amp;quot;, &amp;quot;$&amp;quot;);
+
+             //二维码生成路径
+             //File outputFile = new File(&amp;quot;d:&amp;quot;+File.separator+&amp;quot;QR2&amp;quot;+File.separator + &amp;quot;梯冀&amp;quot;+ id + &amp;quot;&amp;amp;地址&amp;amp;&amp;quot; + ids.get(id)+&amp;quot;.png&amp;quot;);
+             File outputFile = new File(&amp;quot;d:&amp;quot;+File.separator+&amp;quot;QR2&amp;quot;+File.separator + &amp;quot;梯冀&amp;quot;+ id + &amp;quot;.png&amp;quot;);
+             MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
+        }
+
+    }  
+
+
+    public static Map&amp;lt;String,String&amp;gt; getIds(){
+        Map&amp;lt;String,String&amp;gt; ids = new HashMap&amp;lt;String,String&amp;gt;();
+        Connection conn = DB.getConnection();
+        //String sql = &amp;quot;select * from elevatorinfor&amp;quot;;
+        String sql = &amp;quot;SELECT * FROM elevatorinfor WHERE department LIKE &amp;apos;%筑城物业%&amp;apos; AND address=&amp;apos;四海公寓&amp;apos;&amp;quot;;
+        PreparedStatement PST = DB.createPST(conn, sql);
+        ResultSet rs = DB.getRs(PST);
+
+        try {
+            while(rs.next()){
+                if(!rs.getString(&amp;quot;id&amp;quot;).equals(&amp;quot;&amp;quot;)){
+                    //id 格式为    梯冀CFD0029 截取为CFD0029
+                    ids.put(rs.getString(&amp;quot;id&amp;quot;).substring(2), rs.getString(&amp;quot;department&amp;quot;)+rs.getString(&amp;quot;address&amp;quot;));
+                }
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return ids;
+    }
+}  
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Test2 把链接封装成二维码&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+
+public class TestQx{
+    public static void main(String[] args) throws Exception {
+
+        //地址生成二维码
+        String text = &amp;quot;http://ad1.tslanpu.cn:18080/x5/UI2/v_/qianxi/Index.w?device=m&amp;quot;;
+        int width = 300;  
+        int height = 300;  
+        //二维码的图片格式  
+        String format = &amp;quot;png&amp;quot;;  
+        Hashtable hints = new Hashtable();  
+        //内容所使用编码  
+        hints.put(EncodeHintType.CHARACTER_SET, &amp;quot;utf-8&amp;quot;);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(text,  
+                BarcodeFormat.QR_CODE, width, height, hints);
+        //二维码生成路径
+        File outputFile = new File(&amp;quot;d:&amp;quot;+File.separator+&amp;quot;QX&amp;quot;+File.separator + &amp;quot;名字&amp;quot; + 
+
+&amp;quot;.png&amp;quot;);  
+         MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
+    }  
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;用到的jar包&lt;/strong&gt;&lt;/p&gt;&lt;br&gt;&lt;code&gt;&lt;strong&gt;core-3.1.0.jar&lt;/strong&gt;&lt;/code&gt;&lt;p&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;##生成二维码&lt;br&gt;    import com.google.zxing.common.BitMatrix;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import javax.imageio.ImageIO;
+import java.io.File;
+import java.io
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
