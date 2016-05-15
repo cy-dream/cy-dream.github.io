@@ -1,0 +1,523 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Java】Array Manipulations（数组操作） | cy-dream</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Li">
+    
+
+    
+    <meta name="description" content="官网中对于数组的操作描述数组的复制System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+描述：从指定源数组中复制一个数组，复制从指定的位置开始，到目标数组的指定位置结束。
+示例如下：
+1234567891011121314public class Test &amp;#123;	public stati">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Java】Array Manipulations（数组操作）">
+<meta property="og:url" content="http://www.cy-dream.cn/2016/02/23/【Java】Array-Manipulations（数组操作）/index.html">
+<meta property="og:site_name" content="cy-dream">
+<meta property="og:description" content="官网中对于数组的操作描述数组的复制System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+描述：从指定源数组中复制一个数组，复制从指定的位置开始，到目标数组的指定位置结束。
+示例如下：
+1234567891011121314public class Test &amp;#123;	public stati">
+<meta property="og:updated_time" content="2016-02-23T08:27:41.506Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Java】Array Manipulations（数组操作）">
+<meta name="twitter:description" content="官网中对于数组的操作描述数组的复制System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+描述：从指定源数组中复制一个数组，复制从指定的位置开始，到目标数组的指定位置结束。
+示例如下：
+1234567891011121314public class Test &amp;#123;	public stati">
+
+    
+    <link rel="alternative" href="atom.xml" title="cy-dream" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/unnamed4_n_mSY_icon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/profile.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/profile.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="cy-dream" title="cy-dream"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="cy-dream">cy-dream</a></h1>
+				<h2 class="blog-motto">I AM A SLOW WALKER, BUT I NEVER WALK BACKWARDS</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/23/【Java】Array-Manipulations（数组操作）/" title="【Java】Array Manipulations（数组操作）" itemprop="url">【Java】Array Manipulations（数组操作）</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Li" target="_blank" itemprop="author">Li</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-23T06:49:18.000Z" itemprop="datePublished"> 发表于 2016-02-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#官网中对于数组的操作描述"><span class="toc-number">1.</span> <span class="toc-text">官网中对于数组的操作描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数组的复制"><span class="toc-number">1.1.</span> <span class="toc-text">数组的复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK中对于数组的操作类是java-util-Arrays"><span class="toc-number">1.2.</span> <span class="toc-text">JDK中对于数组的操作类是java.util.Arrays</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="官网中对于数组的操作描述"><a href="#官网中对于数组的操作描述" class="headerlink" title="官网中对于数组的操作描述"></a>官网中对于数组的操作描述</h1><h2 id="数组的复制"><a href="#数组的复制" class="headerlink" title="数组的复制"></a>数组的复制</h2><p><strong>System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)</strong></p>
+<p>描述：从指定源数组中复制一个数组，复制从指定的位置开始，到目标数组的指定位置结束。</p>
+<p>示例如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		char[] copyFrom = &#123; &apos;d&apos;, &apos;e&apos;, &apos;c&apos;, &apos;a&apos;, &apos;f&apos;, &apos;f&apos;, &apos;e&apos;,</span><br><span class="line">			    &apos;i&apos;, &apos;n&apos;, &apos;a&apos;, &apos;t&apos;, &apos;e&apos;, &apos;d&apos; &#125;;</span><br><span class="line">        char[] copyTo = new char[7];</span><br><span class="line"></span><br><span class="line">        System.arraycopy(copyFrom, 4, copyTo, 0, 7);</span><br><span class="line">        System.out.println(new String(copyTo));</span><br><span class="line">        </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="JDK中对于数组的操作类是java-util-Arrays"><a href="#JDK中对于数组的操作类是java-util-Arrays" class="headerlink" title="JDK中对于数组的操作类是java.util.Arrays"></a>JDK中对于数组的操作类是java.util.Arrays</h2><p>主要包括以下几个方面：</p>
+<ul>
+<li><p><strong>Searching an array for a specific value to get the index at which it is placed (the binarySearch method).</strong> </p>
+<p>  <code>binarySearch</code>方法：使用二分搜索法来搜索指定的数组，以获得指定的值。下面是使用示例：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		// initializing unsorted int array</span><br><span class="line">		   int intArr[] = &#123;30,20,5,12,55&#125;;</span><br><span class="line"></span><br><span class="line">		   // sorting array</span><br><span class="line">		   Arrays.sort(intArr);</span><br><span class="line"></span><br><span class="line">		   // let us print all the elements available in list</span><br><span class="line">		   System.out.println(&quot;The sorted int array is:&quot;);</span><br><span class="line">		   for (int number : intArr) &#123;</span><br><span class="line">		   System.out.println(&quot;Number = &quot; + number);</span><br><span class="line">		   &#125;</span><br><span class="line"></span><br><span class="line">		   // entering the value to be searched</span><br><span class="line">		   int searchVal = 12;</span><br><span class="line"></span><br><span class="line">		   int retVal = Arrays.binarySearch(intArr,searchVal);</span><br><span class="line">			</span><br><span class="line">		   System.out.println(&quot;The index of element 12 is : &quot; + retVal);</span><br><span class="line">        </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Comparing two arrays to determine if they are equal or not (the equals method).</strong></p>
+<p>  <code>equals</code>方法：如果两个指定的数组彼此相等，则返回 true。下面是使用示例：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		// initializing three byte arrays</span><br><span class="line">		   byte[] arr1 = new byte[] &#123; 12, 31, 22 , 44 &#125;;</span><br><span class="line">		   byte[] arr2 = new byte[] &#123; 12, 31, 22 , 44 &#125;;</span><br><span class="line">		   byte[] arr3 = new byte[] &#123; 31, 44, 12 , 22 &#125;;</span><br><span class="line">		    </span><br><span class="line">		   // comparing arr1 and arr2</span><br><span class="line">		   boolean retval=Arrays.equals(arr1, arr2);</span><br><span class="line">		   System.out.println(&quot;arr1 and arr2 equal: &quot; + retval);</span><br><span class="line"></span><br><span class="line">		   // comparing arr1 and arr3</span><br><span class="line">		   boolean retval2=Arrays.equals(arr1, arr3);</span><br><span class="line">		   System.out.println(&quot;arr1 and arr3 equal: &quot; + retval2);</span><br><span class="line">        </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Filling an array to place a specific value at each index (the fill method).</strong></p>
+<p>  <code>fill</code>方法：将指定的值分配给指定数组的每个元素。以下是使用方法：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		// initializing byte array</span><br><span class="line">		   byte arr[] = new byte[] &#123;1, 6, 3&#125;;</span><br><span class="line">		    </span><br><span class="line">		   // let us print the values</span><br><span class="line">		   System.out.println(&quot;Actual values: &quot;);</span><br><span class="line">		   for (byte value : arr) &#123;</span><br><span class="line">		   System.out.println(&quot;Value = &quot; + value);</span><br><span class="line">		   &#125;</span><br><span class="line"></span><br><span class="line">		   // using fill for placing 8</span><br><span class="line">		   // converting int to byte</span><br><span class="line">		   Arrays.fill(arr,(byte)8);</span><br><span class="line"></span><br><span class="line">		   // let us print the values</span><br><span class="line">		   System.out.println(&quot;New values after using fill() method: &quot;);</span><br><span class="line">		   for (byte value : arr) &#123;</span><br><span class="line">		   System.out.println(&quot;Value = &quot; + value);</span><br><span class="line">		   &#125;</span><br><span class="line">        </span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>Sorting an array into ascending order. This can be done either sequentially, using the sort method, or concurrently, using the parallelSort method introduced in Java SE 8. Parallel sorting of large arrays on multiprocessor systems is faster than sequential array sorting.</strong></p>
+<p>  <code>sort</code>方法：对数组进行排序（或者升序，或者根据指定的比较器）。使用方法如下：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.Collections;</span><br><span class="line">import java.util.Comparator;</span><br><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">   // initializing unsorted short array</span><br><span class="line">   Short sArr[] = new Short[]&#123;3, 13, 1, 9, 21&#125;;</span><br><span class="line"></span><br><span class="line">   // let us print all the elements available in list</span><br><span class="line">   for (short number : sArr) &#123;</span><br><span class="line">   System.out.println(&quot;Number = &quot; + number);</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   // create a comparator</span><br><span class="line">   Comparator&lt;Short&gt; comp = Collections.reverseOrder();</span><br><span class="line"></span><br><span class="line">   // sorting array with reverse order using comparator</span><br><span class="line">   Arrays.sort(sArr, comp);</span><br><span class="line"></span><br><span class="line">   // let us print all the elements available in list</span><br><span class="line">   System.out.println(&quot;short array with some sorted values(1 to 4) is:&quot;);</span><br><span class="line">   for (short number : sArr) &#123;</span><br><span class="line">   System.out.println(&quot;Number = &quot; + number);</span><br><span class="line">   &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Java/">Java</a>
+  </div>
+
+</div>
+
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/02/23/QR/" title="【Java】生成二维码之Java实现">
+  <span>
+  【Java】生成二维码之Java实现</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/23/【Java】Array-Manipulations（数组操作）/" data-title="【Java】Array Manipulations（数组操作）" data-url="http://www.cy-dream.cn/2016/02/23/【Java】Array-Manipulations（数组操作）/"></div>
+		
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"cy-dream"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#官网中对于数组的操作描述"><span class="toc-number">1.</span> <span class="toc-text">官网中对于数组的操作描述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#数组的复制"><span class="toc-number">1.1.</span> <span class="toc-text">数组的复制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JDK中对于数组的操作类是java-util-Arrays"><span class="toc-number">1.2.</span> <span class="toc-text">JDK中对于数组的操作类是java.util.Arrays</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-img"></div>		
+	
+	<div class="social-info" class="clearfix">
+		
+		<a href="http://weibo.com/2549753243" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/cy-dream" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:18713823671@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/二维码生成/" title="二维码生成">二维码生成<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="widget tag">
+<h3 class="title">友情链接</h3>
+<ul class="entry">
+<li><a href="" title="Zippera's Blog">Zippera</a></li>
+</ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2549753243&verifier=1734e9d8&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="link1's url" target="_blank" title="link1&#39;s name">link1&#39;s name</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+		
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/hsihohuang/kiddochan" target="_blank" title="Kiddochan">Kiddochan</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Li">Li</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"cy-dream"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?null";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -1,0 +1,543 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【Java】生成二维码之Java实现 | cy-dream</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Li">
+    
+
+    
+    <meta name="description" content="二维码生成核心代码二维码的特点：1．高密度编码，信息容量大：可容纳多达1850个大写字母或2710个数字或1108个字节，或500多个汉字，比普通条码信息容量约高几十倍。2．编码范围广：该条码可以把图片、声音、文字、签字、指纹等可以数字化的信息进行编码，用条码表示出来；可以表示多种语言文字；可表示图像数据。
+示例如下：1234567891011121314151617181920212223242">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【Java】生成二维码之Java实现">
+<meta property="og:url" content="http://www.cy-dream.cn/2016/02/23/QR/index.html">
+<meta property="og:site_name" content="cy-dream">
+<meta property="og:description" content="二维码生成核心代码二维码的特点：1．高密度编码，信息容量大：可容纳多达1850个大写字母或2710个数字或1108个字节，或500多个汉字，比普通条码信息容量约高几十倍。2．编码范围广：该条码可以把图片、声音、文字、签字、指纹等可以数字化的信息进行编码，用条码表示出来；可以表示多种语言文字；可表示图像数据。
+示例如下：1234567891011121314151617181920212223242">
+<meta property="og:updated_time" content="2016-05-14T11:28:13.227Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【Java】生成二维码之Java实现">
+<meta name="twitter:description" content="二维码生成核心代码二维码的特点：1．高密度编码，信息容量大：可容纳多达1850个大写字母或2710个数字或1108个字节，或500多个汉字，比普通条码信息容量约高几十倍。2．编码范围广：该条码可以把图片、声音、文字、签字、指纹等可以数字化的信息进行编码，用条码表示出来；可以表示多种语言文字；可表示图像数据。
+示例如下：1234567891011121314151617181920212223242">
+
+    
+    <link rel="alternative" href="atom.xml" title="cy-dream" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/unnamed4_n_mSY_icon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/profile.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/profile.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="cy-dream" title="cy-dream"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="cy-dream">cy-dream</a></h1>
+				<h2 class="blog-motto">I AM A SLOW WALKER, BUT I NEVER WALK BACKWARDS</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/02/23/QR/" title="【Java】生成二维码之Java实现" itemprop="url">【Java】生成二维码之Java实现</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Li" target="_blank" itemprop="author">Li</a>
+		
+  <p class="article-time">
+    <time datetime="2016-02-23T06:49:18.000Z" itemprop="datePublished"> 发表于 2016-02-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#二维码生成"><span class="toc-number">1.</span> <span class="toc-text">二维码生成</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#核心代码"><span class="toc-number">1.1.</span> <span class="toc-text">核心代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库连接"><span class="toc-number">1.2.</span> <span class="toc-text">数据库连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Test1-用到数据库"><span class="toc-number">1.3.</span> <span class="toc-text">Test1 用到数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Test2-把链接封装成二维码"><span class="toc-number">1.4.</span> <span class="toc-text">Test2 把链接封装成二维码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用到的jar包"><span class="toc-number">1.4.1.</span> <span class="toc-text">用到的jar包</span></a></li></ol></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="二维码生成"><a href="#二维码生成" class="headerlink" title="二维码生成"></a>二维码生成</h1><h2 id="核心代码"><a href="#核心代码" class="headerlink" title="核心代码"></a>核心代码</h2><p>二维码的特点：<br>1．高密度编码，信息容量大：可容纳多达1850个大写字母或2710个数字或1108个字节，或500多个汉字，比普通条码信息容量约高几十倍。<br>2．编码范围广：该条码可以把图片、声音、文字、签字、指纹等可以数字化的信息进行编码，用条码表示出来；可以表示多种语言文字；可表示图像数据。</p>
+<p>示例如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">import com.google.zxing.common.BitMatrix;</span><br><span class="line">import javax.imageio.ImageIO;</span><br><span class="line">import java.io.File;</span><br><span class="line">import java.io.OutputStream;</span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.awt.image.BufferedImage;</span><br><span class="line"></span><br><span class="line">public final class MatrixToImageWriter &#123;</span><br><span class="line"></span><br><span class="line">	private static final int BLACK = 0xFF000000;</span><br><span class="line">	private static final int WHITE = 0xFFFFFFFF;</span><br><span class="line"></span><br><span class="line">	private MatrixToImageWriter() &#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static BufferedImage toBufferedImage(BitMatrix matrix) &#123;</span><br><span class="line">		int width = matrix.getWidth();</span><br><span class="line">		int height = matrix.getHeight();</span><br><span class="line">		BufferedImage image = new BufferedImage(width, height,</span><br><span class="line">				BufferedImage.TYPE_INT_RGB);</span><br><span class="line">		for (int x = 0; x &lt; width; x++) &#123;</span><br><span class="line">			for (int y = 0; y &lt; height; y++) &#123;</span><br><span class="line">				image.setRGB(x, y, matrix.get(x, y) ? BLACK : WHITE);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		return image;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static void writeToFile(BitMatrix matrix, String format, File file)</span><br><span class="line">			throws IOException &#123;</span><br><span class="line">		BufferedImage image = toBufferedImage(matrix);</span><br><span class="line">		if (!ImageIO.write(image, format, file)) &#123;</span><br><span class="line">			throw new IOException(&quot;Could not write an image of format &quot;</span><br><span class="line">					+ format + &quot; to &quot; + file);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static void writeToStream(BitMatrix matrix, String format,</span><br><span class="line">			OutputStream stream) throws IOException &#123;</span><br><span class="line">		BufferedImage image = toBufferedImage(matrix);</span><br><span class="line">		if (!ImageIO.write(image, format, stream)) &#123;</span><br><span class="line">			throw new IOException(&quot;Could not write an image of format &quot;</span><br><span class="line">					+ format);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据库连接"><a href="#数据库连接" class="headerlink" title="数据库连接"></a>数据库连接</h2><p>根据需求是否用到数据库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.PreparedStatement;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">	</span><br><span class="line">public class DB &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		System.out.println(DB.getConnection());</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	public static Connection getConnection()&#123;</span><br><span class="line">		Connection conn = null;</span><br><span class="line">		String driver = &quot;com.mysql.jdbc.Driver&quot;;</span><br><span class="line">		String url = &quot;jdbc:mysql://localhost:3306/lanpuelevator?user=root&amp;password=1908366654&amp;characterEncoding=UTF-8&amp;mysqlEncoding=UTF-8&quot;;</span><br><span class="line">		try &#123;</span><br><span class="line">			Class.forName(driver);</span><br><span class="line">			conn = DriverManager.getConnection(url);</span><br><span class="line">			</span><br><span class="line">		&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125; catch (SQLException e) &#123;</span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">			</span><br><span class="line">		return conn;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	public static PreparedStatement createPST(Connection conn, String sql) &#123;</span><br><span class="line">		PreparedStatement PST = null;</span><br><span class="line">		try &#123;</span><br><span class="line">			PST = conn.prepareStatement(sql);</span><br><span class="line">		&#125; catch (SQLException e) &#123;</span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		return PST;</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	public static ResultSet getRs(PreparedStatement PST) &#123;</span><br><span class="line">		ResultSet rs = null;</span><br><span class="line">		try &#123;</span><br><span class="line">			rs = PST.executeQuery();</span><br><span class="line">		&#125; catch (SQLException e) &#123;</span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		return rs;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">		</span><br><span class="line">	public static void closeConn(Connection conn) &#123;</span><br><span class="line">		if (conn != null) &#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				conn.close();</span><br><span class="line">			&#125; catch (SQLException e) &#123;</span><br><span class="line">				// TODO Auto-generated catch block</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void closePST(PreparedStatement PST) &#123;</span><br><span class="line">		if (PST != null) &#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				PST.close();</span><br><span class="line">			&#125; catch (SQLException e) &#123;</span><br><span class="line">				// TODO Auto-generated catch block</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void closeRS(ResultSet rs) &#123;</span><br><span class="line">		if (rs != null) &#123;</span><br><span class="line">			try &#123;</span><br><span class="line">				rs.close();</span><br><span class="line">			&#125; catch (SQLException e) &#123;</span><br><span class="line">				// TODO Auto-generated catch block</span><br><span class="line">				e.printStackTrace();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Test1-用到数据库"><a href="#Test1-用到数据库" class="headerlink" title="Test1 用到数据库"></a>Test1 用到数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">import java.io.File;  </span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.PreparedStatement;</span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Hashtable;  </span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">import com.google.zxing.BarcodeFormat;  </span><br><span class="line">import com.google.zxing.EncodeHintType;  </span><br><span class="line">import com.google.zxing.MultiFormatWriter;  </span><br><span class="line">import com.google.zxing.common.BitMatrix;  </span><br><span class="line">@SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">public class Test &#123;  </span><br><span class="line">  </span><br><span class="line">    </span><br><span class="line">	public static void main(String[] args) throws Exception &#123;  </span><br><span class="line">        String text = &quot;http://60.2.39.228:18080/x5/UI2/v_/elevator/mainActivity.w?device=m&amp;id=&quot;;  </span><br><span class="line">        int width = 300;  </span><br><span class="line">        int height = 300;  </span><br><span class="line">        //二维码的图片格式  </span><br><span class="line">        String format = &quot;png&quot;;  </span><br><span class="line">        Hashtable hints = new Hashtable();  </span><br><span class="line">        //内容所使用编码  </span><br><span class="line">        hints.put(EncodeHintType.CHARACTER_SET, &quot;utf-8&quot;);  </span><br><span class="line">  </span><br><span class="line">    	Map&lt;String,String&gt; ids = getIds();</span><br><span class="line">    	</span><br><span class="line">    	for(String id : ids.keySet())&#123;</span><br><span class="line">    			BitMatrix bitMatrix = new MultiFormatWriter().encode(text+id,  </span><br><span class="line">                    BarcodeFormat.QR_CODE, width, height, hints);  </span><br><span class="line">    			</span><br><span class="line">    		id = id.replace(&quot;/&quot;, &quot;$&quot;);</span><br><span class="line">    		 </span><br><span class="line">    		 //二维码生成路径</span><br><span class="line">    		 //File outputFile = new File(&quot;d:&quot;+File.separator+&quot;QR2&quot;+File.separator + &quot;梯冀&quot;+ id + &quot;&amp;地址&amp;&quot; + ids.get(id)+&quot;.png&quot;);</span><br><span class="line">    		 File outputFile = new File(&quot;d:&quot;+File.separator+&quot;QR2&quot;+File.separator + &quot;梯冀&quot;+ id + &quot;.png&quot;);</span><br><span class="line">    	     MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);</span><br><span class="line">    	&#125;</span><br><span class="line">    	</span><br><span class="line">    &#125;  </span><br><span class="line">    </span><br><span class="line">    public static Map&lt;String,String&gt; getIds()&#123;</span><br><span class="line">    	Map&lt;String,String&gt; ids = new HashMap&lt;String,String&gt;();</span><br><span class="line">    	Connection conn = DB.getConnection();</span><br><span class="line">    	//String sql = &quot;select * from elevatorinfor&quot;;</span><br><span class="line">    	String sql = &quot;SELECT * FROM elevatorinfor WHERE department LIKE &apos;%筑城物业%&apos; AND address=&apos;四海公寓&apos;&quot;;</span><br><span class="line">    	PreparedStatement PST = DB.createPST(conn, sql);</span><br><span class="line">    	ResultSet rs = DB.getRs(PST);</span><br><span class="line">    	</span><br><span class="line">    	try &#123;</span><br><span class="line">			while(rs.next())&#123;</span><br><span class="line">				if(!rs.getString(&quot;id&quot;).equals(&quot;&quot;))&#123;</span><br><span class="line">					//id 格式为    梯冀CFD0029 截取为CFD0029</span><br><span class="line">					ids.put(rs.getString(&quot;id&quot;).substring(2), rs.getString(&quot;department&quot;)+rs.getString(&quot;address&quot;));</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125; catch (SQLException e) &#123;</span><br><span class="line">			// TODO Auto-generated catch block</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">    	</span><br><span class="line">    	return ids;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Test2-把链接封装成二维码"><a href="#Test2-把链接封装成二维码" class="headerlink" title="Test2 把链接封装成二维码"></a>Test2 把链接封装成二维码</h2><pre><code>
+import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+
+public class TestQx{
+    public static void main(String[] args) throws Exception {
+
+        //地址生成二维码
+        String text = &quot;http://ad1.tslanpu.cn:18080/x5/UI2/v_/qianxi/Index.w?device=m&quot;;
+        int width = 300;  
+        int height = 300;  
+        //二维码的图片格式  
+        String format = &quot;png&quot;;  
+        Hashtable hints = new Hashtable();  
+        //内容所使用编码  
+        hints.put(EncodeHintType.CHARACTER_SET, &quot;utf-8&quot;);
+        BitMatrix bitMatrix = new MultiFormatWriter().encode(text,  
+             BarcodeFormat.QR_CODE, width, height, hints);
+        //二维码生成路径
+         File outputFile = new File(&quot;d:&quot;+File.separator+&quot;QX&quot;+File.separator + &quot;名字&quot; + 
+
+    &quot;.png&quot;);  
+         MatrixToImageWriter.writeToFile(bitMatrix, format, outputFile);
+}
+</code></pre><h3 id="用到的jar包"><a href="#用到的jar包" class="headerlink" title="用到的jar包"></a>用到的jar包</h3><p><code><strong>core-3.1.0.jar</strong></code></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/二维码生成/">二维码生成</a>
+  </div>
+
+</div>
+
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/02/24/【Java】Java-lang包的学习/" title="【Java】Java.lang.Boolean包的学习">
+  <span>
+  【Java】Java.lang.Boolean包的学习</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/02/23/【Java】Array-Manipulations（数组操作）/"  title="【Java】Array Manipulations（数组操作）">
+ <span>【Java】Array Manipulations（数组操作）
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/02/23/QR/" data-title="【Java】生成二维码之Java实现" data-url="http://www.cy-dream.cn/2016/02/23/QR/"></div>
+		
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"cy-dream"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#二维码生成"><span class="toc-number">1.</span> <span class="toc-text">二维码生成</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#核心代码"><span class="toc-number">1.1.</span> <span class="toc-text">核心代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据库连接"><span class="toc-number">1.2.</span> <span class="toc-text">数据库连接</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Test1-用到数据库"><span class="toc-number">1.3.</span> <span class="toc-text">Test1 用到数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Test2-把链接封装成二维码"><span class="toc-number">1.4.</span> <span class="toc-text">Test2 把链接封装成二维码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用到的jar包"><span class="toc-number">1.4.1.</span> <span class="toc-text">用到的jar包</span></a></li></ol></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-img"></div>		
+	
+	<div class="social-info" class="clearfix">
+		
+		<a href="http://weibo.com/2549753243" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/cy-dream" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:18713823671@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/二维码生成/" title="二维码生成">二维码生成<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="widget tag">
+<h3 class="title">友情链接</h3>
+<ul class="entry">
+<li><a href="" title="Zippera's Blog">Zippera</a></li>
+</ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2549753243&verifier=1734e9d8&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="link1's url" target="_blank" title="link1&#39;s name">link1&#39;s name</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+		
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/hsihohuang/kiddochan" target="_blank" title="Kiddochan">Kiddochan</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Li">Li</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"cy-dream"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?null";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
