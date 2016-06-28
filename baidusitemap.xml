@@ -3,6 +3,66 @@
 
 
     
+  <url>
+    <loc>http://www.cy-dream.cn/2016/06/08/%E6%B8%A9%E5%BA%A6%E6%8E%92%E5%BA%8Ft/</loc>
+    <lastmod>2016-06-08T14:00:24.837Z</lastmod>
+    <data>
+        <display>
+        <title>【Hadoop】MapReduce之温度排序</title>
+        <pubTime>2016-06-08T13:01:00.000Z</pubTime>
+        
+        <tag>Hadoop</tag>
+         
+         
+           
+             
+              <breadCrumb title="Hadoop" url="http://www.cy-dream.cn/categories/Hadoop/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.cy-dream.cn/2016/05/31/%E3%80%90HDFS%E3%80%91HDFS%E4%B8%ADJAVA%20API%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2016-05-31T01:17:06.178Z</lastmod>
+    <data>
+        <display>
+        <title>【HDFS】HDFS中JAVA API的使用</title>
+        <pubTime>2016-05-31T00:32:00.000Z</pubTime>
+        
+        <tag>Hadoop</tag>
+         
+         
+           
+             
+              <breadCrumb title="Hadoop" url="http://www.cy-dream.cn/categories/Hadoop/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://www.cy-dream.cn/2016/05/30/%E3%80%90HDFS%E3%80%91HDFS%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E4%B9%8B%E6%96%87%E4%BB%B6%E5%90%88%E5%B9%B6/</loc>
+    <lastmod>2016-05-30T16:18:57.672Z</lastmod>
+    <data>
+        <display>
+        <title>【HDFS】HDFS实际应用场景之文件合并</title>
+        <pubTime>2016-05-30T15:50:18.000Z</pubTime>
+        
+        <tag>Hadoop</tag>
+         
+         
+           
+             
+              <breadCrumb title="Hadoop" url="http://www.cy-dream.cn/categories/Hadoop/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
     
   <url>
     <loc>http://www.cy-dream.cn/2016/02/23/QR/</loc>

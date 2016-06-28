@@ -4,38 +4,44 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>【Java】Java.lang.Boolean包的学习 | cy-dream</title>
+    <title>【HDFS】HDFS实际应用场景之文件合并 | cy-dream</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="Li">
     
 
     
-    <meta name="description" content="java.lang.Boolean
-Introduction
-  这个类是对于原生数据类型boolean的一个包装，每一个Boolean类型都包括了一个类型为boolean的字段。
-
-Class declaration
-  123public final class Boolean   extends Object      implements Serializable, Comparable&amp;">
+    <meta name="description" content="合并小文件，存放到HDFS上描述文件的上传下载，就是字节字符流的读写操作。
+读文件： 输入流 –&amp;gt; read
+写文件： 输出流 –&amp;gt; write
+流程1).本地每个文件打开 输入流 进行读取内容
+2).HDFS文件打开  输出流，进行内容写入
+3).循环操作
+4).关闭流
+示例1234567891011121314151617181920212223242526272829303132">
 <meta property="og:type" content="article">
-<meta property="og:title" content="【Java】Java.lang.Boolean包的学习">
-<meta property="og:url" content="http://www.cy-dream.cn/2016/02/24/【Java】Java-lang包的学习/index.html">
+<meta property="og:title" content="【HDFS】HDFS实际应用场景之文件合并">
+<meta property="og:url" content="http://www.cy-dream.cn/2016/05/30/【HDFS】HDFS实际应用场景之文件合并/index.html">
 <meta property="og:site_name" content="cy-dream">
-<meta property="og:description" content="java.lang.Boolean
-Introduction
-  这个类是对于原生数据类型boolean的一个包装，每一个Boolean类型都包括了一个类型为boolean的字段。
-
-Class declaration
-  123public final class Boolean   extends Object      implements Serializable, Comparable&amp;">
-<meta property="og:updated_time" content="2016-02-24T03:34:54.102Z">
+<meta property="og:description" content="合并小文件，存放到HDFS上描述文件的上传下载，就是字节字符流的读写操作。
+读文件： 输入流 –&amp;gt; read
+写文件： 输出流 –&amp;gt; write
+流程1).本地每个文件打开 输入流 进行读取内容
+2).HDFS文件打开  输出流，进行内容写入
+3).循环操作
+4).关闭流
+示例1234567891011121314151617181920212223242526272829303132">
+<meta property="og:updated_time" content="2016-05-30T16:18:57.672Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="【Java】Java.lang.Boolean包的学习">
-<meta name="twitter:description" content="java.lang.Boolean
-Introduction
-  这个类是对于原生数据类型boolean的一个包装，每一个Boolean类型都包括了一个类型为boolean的字段。
-
-Class declaration
-  123public final class Boolean   extends Object      implements Serializable, Comparable&amp;">
+<meta name="twitter:title" content="【HDFS】HDFS实际应用场景之文件合并">
+<meta name="twitter:description" content="合并小文件，存放到HDFS上描述文件的上传下载，就是字节字符流的读写操作。
+读文件： 输入流 –&amp;gt; read
+写文件： 输出流 –&amp;gt; write
+流程1).本地每个文件打开 输入流 进行读取内容
+2).HDFS文件打开  输出流，进行内容写入
+3).循环操作
+4).关闭流
+示例1234567891011121314151617181920212223242526272829303132">
 
     
     <link rel="alternative" href="atom.xml" title="cy-dream" type="application/atom+xml">
@@ -94,14 +100,14 @@ Class declaration
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/02/24/【Java】Java-lang包的学习/" title="【Java】Java.lang.Boolean包的学习" itemprop="url">【Java】Java.lang.Boolean包的学习</a>
+      <a href="/2016/05/30/【HDFS】HDFS实际应用场景之文件合并/" title="【HDFS】HDFS实际应用场景之文件合并" itemprop="url">【HDFS】HDFS实际应用场景之文件合并</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="Li" target="_blank" itemprop="author">Li</a>
 		
   <p class="article-time">
-    <time datetime="2016-02-24T02:50:45.000Z" itemprop="datePublished"> 发表于 2016-02-24</time>
+    <time datetime="2016-05-30T15:50:18.000Z" itemprop="datePublished"> 发表于 2016-05-30</time>
     
   </p>
 </header>
@@ -110,58 +116,32 @@ Class declaration
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#java-lang-Boolean"><span class="toc-number">1.</span> <span class="toc-text">java.lang.Boolean</span></a></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#合并小文件，存放到HDFS上"><span class="toc-number">1.</span> <span class="toc-text">合并小文件，存放到HDFS上</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#描述"><span class="toc-number">1.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程"><span class="toc-number">1.2.</span> <span class="toc-text">流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">1.3.</span> <span class="toc-text">示例</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="java-lang-Boolean"><a href="#java-lang-Boolean" class="headerlink" title="java.lang.Boolean"></a>java.lang.Boolean</h2><ul>
-<li><p><strong>Introduction</strong></p>
-<p>  这个类是对于原生数据类型boolean的一个包装，每一个Boolean类型都包括了一个类型为boolean的字段。</p>
-</li>
-<li><p><strong>Class declaration</strong></p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public final class Boolean</span><br><span class="line">   extends Object</span><br><span class="line">      implements Serializable, Comparable&lt;Boolean&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>Class constructors</strong></p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Boolean(boolean value):This allocates a Boolean object representing the value argument.</span><br><span class="line"></span><br><span class="line">Boolean(String s):This allocates a Boolean object representing the value true if the string argument is not null and is equal, ignoring case, to the string &quot;true&quot;.</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>Class methods：各个方法的示例</strong></p>
-<ol>
-<li><code>boolean booleanValue()</code>：将此 Boolean 对象的值作为基本布尔值返回。</li>
-<li><code>int compareTo(Boolean b)</code>：将此 Boolean 实例与其他实例进行比较。</li>
-<li><code>boolean equals(Object obj)</code>：当且仅当参数不是 null，而是一个与此对象一样，都表示同一个 Boolean 值的 boolean 对象时，才返回 true。</li>
-<li><code>static boolean getBoolean(String name)</code>：当且仅当以参数命名的系统属性存在，且等于 “true” 字符串时，才返回 true。</li>
-<li><code>int hashCode()</code>：返回该 Boolean 对象的哈希码。</li>
-<li><code>static boolean parseBoolean(String s)</code>：将字符串参数解析为 boolean 值。</li>
-<li><code>String toString()</code>：返回表示该布尔值的 String 对象。</li>
-<li><code>static String toString(boolean b)</code>：返回一个表示指定布尔值的 String 对象。</li>
-<li><code>static Boolean valueOf(boolean b)</code>：返回一个表示指定 boolean 值的 Boolean 实例。</li>
-<li><code>static Boolean valueOf(String s)</code>：返回一个用指定的字符串表示值的 Boolean 值。</li>
-</ol>
-</li>
-</ul>
-<p>所有方法的使用方式：<a href="http://www.tutorialspoint.com/java/lang/java_lang_boolean.htm" target="_blank" rel="external">http://www.tutorialspoint.com/java/lang/java_lang_boolean.htm</a></p>
-<p><strong>使用示例如下：</strong></p>
-<pre><code>方法1：
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.*;</span><br><span class="line"></span><br><span class="line">public class BooleanDemo &#123;</span><br><span class="line"></span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">      // create a Boolean object b</span><br><span class="line">      Boolean b;</span><br><span class="line"></span><br><span class="line">      // assign value to b</span><br><span class="line">      b = new Boolean(true);</span><br><span class="line"></span><br><span class="line">      // create a boolean primitive type bool</span><br><span class="line">      boolean bool;</span><br><span class="line"></span><br><span class="line">      // assign primitive value of b to bool</span><br><span class="line">      bool = b.booleanValue();</span><br><span class="line"></span><br><span class="line">      String str = &quot;Primitive value of Boolean object &quot; + b + &quot; is &quot; + bool;</span><br><span class="line"></span><br><span class="line">      // print bool value</span><br><span class="line">      System.out.println( str );</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-方法2：
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">import java.lang.*;</span><br><span class="line"></span><br><span class="line">public class BooleanDemo &#123;</span><br><span class="line"></span><br><span class="line">   public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">      // create 2 Boolean objects b1, b2</span><br><span class="line">      Boolean b1, b2;</span><br><span class="line"></span><br><span class="line">      // assign values to b1, b2</span><br><span class="line">      b1 = new Boolean(true);</span><br><span class="line">      b2 = new Boolean(false);</span><br><span class="line"></span><br><span class="line">      // create an int res</span><br><span class="line">      int res;</span><br><span class="line"></span><br><span class="line">      // compare b1 with b2</span><br><span class="line">      res = b1.compareTo(b2);</span><br><span class="line"></span><br><span class="line">      String str1 = &quot;Both values are equal &quot;;</span><br><span class="line">      String str2 = &quot;Object value is true&quot;;</span><br><span class="line">      String str3 = &quot;Argument value is true&quot;;</span><br><span class="line"></span><br><span class="line">      if( res == 0 )&#123;</span><br><span class="line">      	 System.out.println( str1 );</span><br><span class="line">      &#125;</span><br><span class="line">      else if( res &gt; 0 )&#123;</span><br><span class="line">      	 System.out.println( str2 );</span><br><span class="line">      &#125;</span><br><span class="line">      else if( res &lt; 0 )&#123;</span><br><span class="line">      	 System.out.println( str3 );</span><br><span class="line">      &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</code></pre>  
+		<h1 id="合并小文件，存放到HDFS上"><a href="#合并小文件，存放到HDFS上" class="headerlink" title="合并小文件，存放到HDFS上"></a>合并小文件，存放到HDFS上</h1><h2 id="描述"><a href="#描述" class="headerlink" title="描述"></a>描述</h2><p>文件的上传下载，就是字节字符流的读写操作。</p>
+<p>读文件： 输入流 –&gt; read</p>
+<p>写文件： 输出流 –&gt; write</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>1).本地每个文件打开 输入流 进行读取内容</p>
+<p>2).HDFS文件打开  输出流，进行内容写入</p>
+<p>3).循环操作</p>
+<p>4).关闭流</p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line">import org.apache.hadoop.conf.Configuration;</span><br><span class="line">import org.apache.hadoop.fs.FSDataInputStream;</span><br><span class="line">import org.apache.hadoop.fs.FSDataOutputStream;</span><br><span class="line">import org.apache.hadoop.fs.FileStatus;</span><br><span class="line">import org.apache.hadoop.fs.FileSystem;</span><br><span class="line">import org.apache.hadoop.fs.Path;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * 功能 在向HDFS上传复制的过程中，进行合并文件</span><br><span class="line"> */</span><br><span class="line">public class putMerge &#123;</span><br><span class="line">	</span><br><span class="line">	/**</span><br><span class="line">	 * 复制上传文件并合并</span><br><span class="line">	 * </span><br><span class="line">	 * @param localDir</span><br><span class="line">	 * 			本地上传文件的目录</span><br><span class="line">	 * @param hdfsFile</span><br><span class="line">	 * 			HDFS上传文件名称包括路径</span><br><span class="line">	 */</span><br><span class="line">	</span><br><span class="line">	public static void put(String localDir, String hdfsFile)&#123;</span><br><span class="line">		</span><br><span class="line">		// 1)获取配置信息</span><br><span class="line">		Configuration conf = new Configuration();</span><br><span class="line">		</span><br><span class="line">		//本地路径</span><br><span class="line">		Path localPath = new Path(localDir);</span><br><span class="line">		</span><br><span class="line">		//HDFS路径</span><br><span class="line">		Path hdfsPath = new Path(hdfsFile);</span><br><span class="line">		</span><br><span class="line">		try &#123;</span><br><span class="line">			</span><br><span class="line">			//获取本地文件系统</span><br><span class="line">			FileSystem localFs = FileSystem.getLocal(conf);</span><br><span class="line">			</span><br><span class="line">			//获取hdfs文件系统</span><br><span class="line">			FileSystem hdfs = FileSystem.get(conf);</span><br><span class="line">			</span><br><span class="line">			//打开HDFS上文件的输出流</span><br><span class="line">			FSDataOutputStream fsDataOutputStream = hdfs.create(hdfsPath);</span><br><span class="line">			</span><br><span class="line">			//本地系统中指定目录的所有文件</span><br><span class="line">			FileStatus[] status = localFs.listStatus(localPath);</span><br><span class="line">			</span><br><span class="line">			//循环遍历本地文件</span><br><span class="line">			for(FileStatus fileStatus : status)&#123;</span><br><span class="line">				//获取文件</span><br><span class="line">				Path path = fileStatus.getPath();</span><br><span class="line">				</span><br><span class="line">				System.out.println(&quot;文件为：&quot; + path.getName());</span><br><span class="line">				</span><br><span class="line">				//打开文件输入流</span><br><span class="line">				FSDataInputStream fsDataInputStream = localFs.open(path);</span><br><span class="line">				</span><br><span class="line">				//进行流的读写操作</span><br><span class="line">				byte[] buffer = new byte[1024];</span><br><span class="line">				int len = 0;</span><br><span class="line">				while((len = fsDataInputStream.read(buffer)) &gt; 0)&#123;</span><br><span class="line">					fsDataOutputStream.write(buffer, 0, len);</span><br><span class="line">				&#125;</span><br><span class="line">				fsDataInputStream.close();</span><br><span class="line">			&#125;</span><br><span class="line">			fsDataOutputStream.close();</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		</span><br><span class="line">		//本地文件路径</span><br><span class="line">		String localDir = &quot;e:/log&quot;;</span><br><span class="line">		//HDFS路径</span><br><span class="line">		String hdfsFile = &quot;hdfs://192.168.99.110:9000/usr/hadoop/test/log.data&quot;;</span><br><span class="line">		</span><br><span class="line">		put(localDir, hdfsFile);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
 <div class="article-categories">
   <span></span>
-  <a class="article-category-link" href="/categories/Java/">Java</a>
+  <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
 </div>
 
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Java/">Java</a>
+  <span></span> <a href="/tags/Hadoop/">Hadoop</a>
   </div>
 
 </div>
@@ -176,16 +156,16 @@ Class declaration
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/14/hello-world/" title="Hello World">
+ <a href="/2016/05/31/【HDFS】HDFS中JAVA API的使用/" title="【HDFS】HDFS中JAVA API的使用">
   <span>
-  Hello World</span>
+  【HDFS】HDFS中JAVA API的使用</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/02/23/QR/"  title="【Java】生成二维码之Java实现">
- <span>【Java】生成二维码之Java实现
+<a href="/2016/05/14/hello-world/"  title="Hello World">
+ <span>Hello World
 </span>
 </a>
 </div>
@@ -194,7 +174,7 @@ Class declaration
 
 	
 <section id="comments" class="comment">
-	<div class="ds-thread" data-thread-key="2016/02/24/【Java】Java-lang包的学习/" data-title="【Java】Java.lang.Boolean包的学习" data-url="http://www.cy-dream.cn/2016/02/24/【Java】Java-lang包的学习/"></div>
+	<div class="ds-thread" data-thread-key="2016/05/30/【HDFS】HDFS实际应用场景之文件合并/" data-title="【HDFS】HDFS实际应用场景之文件合并" data-url="http://www.cy-dream.cn/2016/05/30/【HDFS】HDFS实际应用场景之文件合并/"></div>
 		
 <script type="text/javascript">
 	var duoshuoQuery = {short_name:"cy-dream"};
@@ -216,7 +196,7 @@ Class declaration
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#java-lang-Boolean"><span class="toc-number">1.</span> <span class="toc-text">java.lang.Boolean</span></a></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#合并小文件，存放到HDFS上"><span class="toc-number">1.</span> <span class="toc-text">合并小文件，存放到HDFS上</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#描述"><span class="toc-number">1.1.</span> <span class="toc-text">描述</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#流程"><span class="toc-number">1.2.</span> <span class="toc-text">流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#示例"><span class="toc-number">1.3.</span> <span class="toc-text">示例</span></a></li></ol></li></ol>
  
   </div>
 

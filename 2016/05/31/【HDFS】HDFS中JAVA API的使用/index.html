@@ -1,0 +1,517 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>【HDFS】HDFS中JAVA API的使用 | cy-dream</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Li">
+    
+
+    
+    <meta name="description" content="HDFS中JAVA API的使用HDFS是一个分布式文件系统，既然是文件系统，就可以对其文件进行操作，比如说新建文件、删除文件、读取文件内容等操作。下面记录一下使用JAVA API对HDFS中的文件进行操作的过程。
+Configuration类：该类的对象封转了客户端或者服务器的配置。
+FileSystem类：该类的对象是一个文件系统对象，可以用该对象的一些方法来对文件进行操作。FileSyste">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【HDFS】HDFS中JAVA API的使用">
+<meta property="og:url" content="http://www.cy-dream.cn/2016/05/31/【HDFS】HDFS中JAVA API的使用/index.html">
+<meta property="og:site_name" content="cy-dream">
+<meta property="og:description" content="HDFS中JAVA API的使用HDFS是一个分布式文件系统，既然是文件系统，就可以对其文件进行操作，比如说新建文件、删除文件、读取文件内容等操作。下面记录一下使用JAVA API对HDFS中的文件进行操作的过程。
+Configuration类：该类的对象封转了客户端或者服务器的配置。
+FileSystem类：该类的对象是一个文件系统对象，可以用该对象的一些方法来对文件进行操作。FileSyste">
+<meta property="og:updated_time" content="2016-05-31T01:17:06.178Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【HDFS】HDFS中JAVA API的使用">
+<meta name="twitter:description" content="HDFS中JAVA API的使用HDFS是一个分布式文件系统，既然是文件系统，就可以对其文件进行操作，比如说新建文件、删除文件、读取文件内容等操作。下面记录一下使用JAVA API对HDFS中的文件进行操作的过程。
+Configuration类：该类的对象封转了客户端或者服务器的配置。
+FileSystem类：该类的对象是一个文件系统对象，可以用该对象的一些方法来对文件进行操作。FileSyste">
+
+    
+    <link rel="alternative" href="atom.xml" title="cy-dream" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/unnamed4_n_mSY_icon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/profile.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/profile.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="cy-dream" title="cy-dream"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="cy-dream">cy-dream</a></h1>
+				<h2 class="blog-motto">I AM A SLOW WALKER, BUT I NEVER WALK BACKWARDS</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">Home</a></li>
+					
+						<li><a href="/archives">Archives</a></li>
+					
+						<li><a href="/about">About</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/31/【HDFS】HDFS中JAVA API的使用/" title="【HDFS】HDFS中JAVA API的使用" itemprop="url">【HDFS】HDFS中JAVA API的使用</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Li" target="_blank" itemprop="author">Li</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-31T00:32:00.000Z" itemprop="datePublished"> 发表于 2016-05-31</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HDFS中JAVA-API的使用"><span class="toc-number">1.</span> <span class="toc-text">HDFS中JAVA API的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HDFS-API-URL-方式操作"><span class="toc-number">1.1.</span> <span class="toc-text">HDFS API URL 方式操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HDFS-FileSystem-API-方式操作"><span class="toc-number">1.2.</span> <span class="toc-text">HDFS FileSystem API 方式操作</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h1 id="HDFS中JAVA-API的使用"><a href="#HDFS中JAVA-API的使用" class="headerlink" title="HDFS中JAVA API的使用"></a>HDFS中JAVA API的使用</h1><p>HDFS是一个分布式文件系统，既然是文件系统，就可以对其文件进行操作，比如说新建文件、删除文件、读取文件内容等操作。下面记录一下使用JAVA API对HDFS中的文件进行操作的过程。</p>
+<p>Configuration类：该类的对象封转了客户端或者服务器的配置。</p>
+<p>FileSystem类：该类的对象是一个文件系统对象，可以用该对象的一些方法来对文件进行操作。FileSystem fs = FileSystem.get(conf);通过FileSystem的静态方法get获得该对象。</p>
+<p>FSDataInputStream和FSDataOutputStream：这两个类是HDFS中的输入输出流。分别通过FileSystem的open方法和create方法获得。</p>
+<h2 id="HDFS-API-URL-方式操作"><a href="#HDFS-API-URL-方式操作" class="headerlink" title="HDFS API URL 方式操作"></a>HDFS API URL 方式操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import java.io.InputStream;</span><br><span class="line">import java.net.URL;</span><br><span class="line"></span><br><span class="line">import org.apache.hadoop.fs.FsUrlStreamHandlerFactory;</span><br><span class="line">import org.apache.hadoop.io.IOUtils;</span><br><span class="line">import org.junit.Test;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * HDFS API URL 方式操作</span><br><span class="line"> */</span><br><span class="line">public class HDFSUrlTest &#123;</span><br><span class="line">	</span><br><span class="line">	//让JAVA 程序识别HDFS的Url</span><br><span class="line">	static&#123;</span><br><span class="line">		URL.setURLStreamHandlerFactory(new FsUrlStreamHandlerFactory());</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//查看文件内容</span><br><span class="line">	@Test</span><br><span class="line">	public void testRead()&#123;</span><br><span class="line">		InputStream in = null;</span><br><span class="line">		</span><br><span class="line">		//文件路径</span><br><span class="line">		String fileUrl = &quot;hdfs://192.168.99.110:9000/user/hadoop/input/test2.txt&quot;;</span><br><span class="line">		</span><br><span class="line">		try &#123;</span><br><span class="line">			//获取文件输入流</span><br><span class="line">			in = new URL(fileUrl).openStream();</span><br><span class="line">			</span><br><span class="line">			//将文件内容打出来输入到控制台</span><br><span class="line">			IOUtils.copyBytes(in, System.out, 4096, false);</span><br><span class="line">		&#125; catch (Exception e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;finally&#123;</span><br><span class="line">			IOUtils.closeStream(in);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="HDFS-FileSystem-API-方式操作"><a href="#HDFS-FileSystem-API-方式操作" class="headerlink" title="HDFS FileSystem API 方式操作"></a>HDFS FileSystem API 方式操作</h2><p>注：要想成功运行需导入以下两个配置文件到自己工程下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">core-site.xml</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs-site.xml</span><br></pre></td></tr></table></figure>
+<p>HDFS工具类,用来获取配置信息及文件系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">import org.apache.hadoop.conf.Configuration;</span><br><span class="line">import org.apache.hadoop.fs.FileSystem;</span><br><span class="line">/*</span><br><span class="line"> * HDFS 工具类 </span><br><span class="line"> */</span><br><span class="line">public class HDFSUtils &#123;</span><br><span class="line">	</span><br><span class="line">	public static FileSystem getFileSystem()&#123;</span><br><span class="line">		</span><br><span class="line">		FileSystem hdfs = null;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">		try &#123;</span><br><span class="line">			//获取配置文件信息</span><br><span class="line">			Configuration conf = new Configuration();</span><br><span class="line">			//获取文件系统</span><br><span class="line">			hdfs = FileSystem.get(conf);</span><br><span class="line">		&#125; catch (IOException e) &#123;</span><br><span class="line">			e.printStackTrace();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		return hdfs;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体操作示例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line"></span><br><span class="line">import org.apache.hadoop.fs.BlockLocation;</span><br><span class="line">import org.apache.hadoop.fs.FSDataInputStream;</span><br><span class="line">import org.apache.hadoop.fs.FSDataOutputStream;</span><br><span class="line">import org.apache.hadoop.fs.FileStatus;</span><br><span class="line">import org.apache.hadoop.fs.FileSystem;</span><br><span class="line">import org.apache.hadoop.fs.Path;</span><br><span class="line">import org.apache.hadoop.hdfs.DistributedFileSystem;</span><br><span class="line">import org.apache.hadoop.hdfs.protocol.DatanodeInfo;</span><br><span class="line">import org.apache.hadoop.io.IOUtils;</span><br><span class="line">import org.junit.Test;</span><br><span class="line"></span><br><span class="line">public class HDFSFsTest &#123;</span><br><span class="line">	</span><br><span class="line">	//读取文件内容</span><br><span class="line">	@Test</span><br><span class="line">	public void testRead() throws IOException&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//文件名称</span><br><span class="line">		Path path = new Path(&quot;/user/hadoop/input/test2.txt&quot;);</span><br><span class="line">		</span><br><span class="line">		//打开文件输入流-----open</span><br><span class="line">		FSDataInputStream inStream = hdfs.open(path);</span><br><span class="line">		</span><br><span class="line">		//读取文件内容到控制台显示-----read</span><br><span class="line">		IOUtils.copyBytes(inStream, System.out, 4096, false);</span><br><span class="line">		</span><br><span class="line">		//关闭流------close</span><br><span class="line">		IOUtils.closeStream(inStream);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//查看目录</span><br><span class="line">	@Test</span><br><span class="line">	public void testList() throws IOException&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//目录</span><br><span class="line">		Path path = new Path(&quot;/user/hadoop/&quot;);</span><br><span class="line">		</span><br><span class="line">		FileStatus[] fileStatus = hdfs.listStatus(path);</span><br><span class="line">			</span><br><span class="line">			for(FileStatus fs : fileStatus)&#123;</span><br><span class="line">				Path p = fs.getPath();</span><br><span class="line">				String info = fs.isDir() ? &quot;目录&quot; : &quot;文件&quot; ;</span><br><span class="line">				System.out.println(info + &quot;:&quot; + p);</span><br><span class="line">			&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//创建目录</span><br><span class="line">	@Test</span><br><span class="line">	public void testDirectory() throws Exception&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//目录</span><br><span class="line">		Path path = new Path(&quot;/usr/hadoop/dir&quot;);</span><br><span class="line">		</span><br><span class="line">		//创建目录</span><br><span class="line">		boolean bool = hdfs.mkdirs(path);</span><br><span class="line">		</span><br><span class="line">		//返回结果为true创建成功</span><br><span class="line">		System.out.println(bool);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//上传文件</span><br><span class="line">	@Test</span><br><span class="line">	public void testPut() throws Exception&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//本地路径 目录 + 文件名称</span><br><span class="line">		Path srcPath = new Path(&quot;c:/jdk-8u92-linux-x64.gz&quot;);</span><br><span class="line">		</span><br><span class="line">		//目标路径</span><br><span class="line">		Path dstPath = new Path(&quot;/usr/hadoop/test/&quot;);</span><br><span class="line">		</span><br><span class="line">		hdfs.copyFromLocalFile(srcPath, dstPath);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//创建HDFS文件并写入内容</span><br><span class="line">	@Test</span><br><span class="line">	public void testCreat() throws Exception&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//HDFS上传文件路径</span><br><span class="line">		Path path = new Path(&quot;/usr/hadoop/dir/toich.data&quot;);</span><br><span class="line">		</span><br><span class="line">		//获取文件并上传输出流</span><br><span class="line">		FSDataOutputStream fs = hdfs.create(path);</span><br><span class="line">		</span><br><span class="line">		//通过输出流写内容</span><br><span class="line">		fs.writeUTF(&quot;Hello Hadoop!!!&quot;);</span><br><span class="line">		</span><br><span class="line">		fs.close();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//对HDFS上文件进行重命名</span><br><span class="line">	@Test</span><br><span class="line">	public void testRename() throws Exception&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//源文件名称</span><br><span class="line">		Path srcPath = new Path(&quot;/usr/hadoop/dir/toich.data&quot;);</span><br><span class="line">		</span><br><span class="line">		//目标文件名称</span><br><span class="line">		Path dstPath = new Path(&quot;/usr/hadoop/dir/touch.data&quot;);</span><br><span class="line">		</span><br><span class="line">		//重命名</span><br><span class="line">		boolean bool = hdfs.rename(srcPath, dstPath);</span><br><span class="line">		</span><br><span class="line">		System.out.println(bool);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//删除文件</span><br><span class="line">	@Test</span><br><span class="line">	public void testDelete() throws Exception&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//HDFS 文件路径</span><br><span class="line">		Path path = new Path(&quot;/usr/hadoop/dir/touch.data&quot;);</span><br><span class="line">		</span><br><span class="line">		//删除</span><br><span class="line">//		boolean bool = hdfs.delete(path);</span><br><span class="line">		</span><br><span class="line">		boolean bool = hdfs.deleteOnExit(path);</span><br><span class="line">		</span><br><span class="line">		System.out.println(bool);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//删除目录</span><br><span class="line">	@Test</span><br><span class="line">	public void testDeleteDir() throws Exception&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//HDFS 文件路径</span><br><span class="line">		Path path = new Path(&quot;/usr/hadoop/dir/&quot;);</span><br><span class="line">		</span><br><span class="line">		//删除</span><br><span class="line">		boolean bool = hdfs.delete(path, true);</span><br><span class="line">		</span><br><span class="line">		System.out.println(bool);</span><br><span class="line">	&#125;</span><br><span class="line">		</span><br><span class="line">	//查找某个文件在集群的位置</span><br><span class="line">	@Test</span><br><span class="line">	public void testLocation() throws Exception&#123;</span><br><span class="line">		</span><br><span class="line">		//获取文件系统</span><br><span class="line">		FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">		</span><br><span class="line">		//HDFS 文件上传路径</span><br><span class="line">		Path path = new Path(&quot;/usr/hadoop/test/jdk-8u92-linux-x64.gz&quot;);</span><br><span class="line">		</span><br><span class="line">		FileStatus fs = hdfs.getFileStatus(path);</span><br><span class="line">		</span><br><span class="line">		BlockLocation[] blockLocations =  hdfs.getFileBlockLocations(fs, 0, fs.getLen());</span><br><span class="line">		</span><br><span class="line">		for(BlockLocation blockLocation : blockLocations)&#123;</span><br><span class="line">			</span><br><span class="line">			String[] hosts = blockLocation.getHosts();</span><br><span class="line">			</span><br><span class="line">			for(String host : hosts)&#123;</span><br><span class="line">				System.out.print(host + &quot;　　&quot;);</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	//获取HDFS集群上所有节点名称信息</span><br><span class="line">		@Test</span><br><span class="line">		public void testCluster() throws Exception&#123;</span><br><span class="line">			</span><br><span class="line">			//获取文件系统</span><br><span class="line">			FileSystem hdfs = HDFSUtils.getFileSystem();</span><br><span class="line">			</span><br><span class="line">			DistributedFileSystem distributeFileSyatem = (DistributedFileSystem) hdfs;</span><br><span class="line">			</span><br><span class="line">			DatanodeInfo[] datanodeInfos =  distributeFileSyatem.getDataNodeStats();</span><br><span class="line">			</span><br><span class="line">			for(DatanodeInfo datanodeInfo : datanodeInfos)&#123;</span><br><span class="line">				</span><br><span class="line">				String datanode = datanodeInfo.getHostName();</span><br><span class="line">				</span><br><span class="line">				System.out.println(datanode);</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Hadoop/">Hadoop</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Hadoop/">Hadoop</a>
+  </div>
+
+</div>
+
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/06/08/温度排序t/" title="【Hadoop】MapReduce之温度排序">
+  <span>
+  【Hadoop】MapReduce之温度排序</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/05/30/【HDFS】HDFS实际应用场景之文件合并/"  title="【HDFS】HDFS实际应用场景之文件合并">
+ <span>【HDFS】HDFS实际应用场景之文件合并
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/05/31/【HDFS】HDFS中JAVA API的使用/" data-title="【HDFS】HDFS中JAVA API的使用" data-url="http://www.cy-dream.cn/2016/05/31/【HDFS】HDFS中JAVA API的使用/"></div>
+		
+<script type="text/javascript">
+	var duoshuoQuery = {short_name:"cy-dream"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#HDFS中JAVA-API的使用"><span class="toc-number">1.</span> <span class="toc-text">HDFS中JAVA API的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#HDFS-API-URL-方式操作"><span class="toc-number">1.1.</span> <span class="toc-text">HDFS API URL 方式操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#HDFS-FileSystem-API-方式操作"><span class="toc-number">1.2.</span> <span class="toc-text">HDFS FileSystem API 方式操作</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+<div id="authorInfo">
+	
+		<div class="author-img"></div>		
+	
+	<div class="social-info" class="clearfix">
+		
+		<a href="http://weibo.com/2549753243" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		<a href="https://github.com/cy-dream" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		<a href="mailto:18713823671@163.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+
+	</div>
+</div>
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/Hadoop/" title="Hadoop">Hadoop<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>3</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
+			
+		
+			
+				<li><a href="/tags/二维码生成/" title="二维码生成">二维码生成<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=1&isFans=1&uid=2549753243&verifier=1734e9d8&dpc=1"></iframe>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="link1's url" target="_blank" title="link1&#39;s name">link1&#39;s name</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+		
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/cy-dream/kiddochan" target="_blank" title="Kiddochan">Kiddochan</a> © 2016 
+		
+		<a href="/about" target="_blank" title="Li">Li</a>
+		
+		<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1259138001'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s11.cnzz.com/z_stat.php%3Fid%3D1259138001%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"cy-dream"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?null";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_null'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3Dnull' type='text/javascript'%3E%3C/script%3E"));</script>
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

@@ -77,6 +77,81 @@
   
 <section class="post" itemscope itemprop="blogitem">
   
+    <a href="/2016/06/08/温度排序t/" title="【Hadoop】MapReduce之温度排序" itemprop="url">
+  
+    <h1 itemprop="name">【Hadoop】MapReduce之温度排序</h1>
+    
+     
+           <p itemprop="description" >温度排序之二次排序描述1、计算每年温度最高的时间
+2、计算每年温度最高前十天
+思路1、按照年份升序排序，同时每一年中温度降序排序。
+2、按照年份分组，每一年对应一个reduce任务
+3、mapper输出，key为封装对象。
+目的1、自定排序
+2、自定义分区
+3、自定义分组
+示例封</p>
+        
+    
+    <time datetime="2016-06-08T13:01:00.000Z" itemprop="datePublished">2016-06-08</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/05/31/【HDFS】HDFS中JAVA API的使用/" title="【HDFS】HDFS中JAVA API的使用" itemprop="url">
+  
+    <h1 itemprop="name">【HDFS】HDFS中JAVA API的使用</h1>
+    
+     
+           <p itemprop="description" >HDFS中JAVA API的使用HDFS是一个分布式文件系统，既然是文件系统，就可以对其文件进行操作，比如说新建文件、删除文件、读取文件内容等操作。下面记录一下使用JAVA API对HDFS中的文件进行操作的过程。
+Configuration类：该类的对象封转了客户端或者服务器的</p>
+        
+    
+    <time datetime="2016-05-31T00:32:00.000Z" itemprop="datePublished">2016-05-31</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
+    <a href="/2016/05/30/【HDFS】HDFS实际应用场景之文件合并/" title="【HDFS】HDFS实际应用场景之文件合并" itemprop="url">
+  
+    <h1 itemprop="name">【HDFS】HDFS实际应用场景之文件合并</h1>
+    
+     
+           <p itemprop="description" >合并小文件，存放到HDFS上描述文件的上传下载，就是字节字符流的读写操作。
+读文件： 输入流 –&amp;gt; read
+写文件： 输出流 –&amp;gt; write
+流程1).本地每个文件打开 输入流 进行读取内容
+2).HDFS文件打开  输出流，进行内容写入
+3).循环操作
+4).关</p>
+        
+    
+    <time datetime="2016-05-30T15:50:18.000Z" itemprop="datePublished">2016-05-30</time>
+  </a>
+</section>
+
+
+
+
+
+
+  
+<section class="post" itemscope itemprop="blogitem">
+  
     <a href="/2016/05/14/hello-world/" title="Hello World" itemprop="url">
   
     <h1 itemprop="name">Hello World</h1>
@@ -119,48 +194,10 @@ Class declaration
 
 
 
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2016/02/23/【Java】Array-Manipulations（数组操作）/" title="【Java】Array Manipulations（数组操作）" itemprop="url">
-  
-    <h1 itemprop="name">【Java】Array Manipulations（数组操作）</h1>
-    
-     
-           <p itemprop="description" >官网中对于数组的操作描述数组的复制System.arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
-描述：从指定源数组中复制一个数组，复制从指定的位置开始，到目标数组的指定位置结束。
-示例</p>
-        
-    
-    <time datetime="2016-02-23T06:49:18.000Z" itemprop="datePublished">2016-02-23</time>
-  </a>
-</section>
 
-
-
-
-
-
-  
-<section class="post" itemscope itemprop="blogitem">
-  
-    <a href="/2016/02/23/QR/" title="【Java】生成二维码之Java实现" itemprop="url">
-  
-    <h1 itemprop="name">【Java】生成二维码之Java实现</h1>
-    
-     
-           <p itemprop="description" >二维码生成核心代码二维码的特点：1．高密度编码，信息容量大：可容纳多达1850个大写字母或2710个数字或1108个字节，或500多个汉字，比普通条码信息容量约高几十倍。2．编码范围广：该条码可以把图片、声音、文字、签字、指纹等可以数字化的信息进行编码，用条码表示出来；可以表示多</p>
-        
-    
-    <time datetime="2016-02-23T06:49:18.000Z" itemprop="datePublished">2016-02-23</time>
-  </a>
-</section>
-
-
-
-
-
-
+  <nav id="page-nav" class="clearfix unexpand">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next<span></span></a>
+  </nav>
 
 </div>
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
@@ -200,6 +237,10 @@ Class declaration
 		<ul>
 		
 		  
+			<li><a href="/categories/Hadoop/" title="Hadoop">Hadoop<sup>3</sup></a></li>
+		  
+		
+		  
 			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
 		  
 		
@@ -211,6 +252,10 @@ Class declaration
 <div class="tagslist">
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/Hadoop/" title="Hadoop">Hadoop<sup>3</sup></a></li>
+			
 		
 			
 				<li><a href="/tags/Java/" title="Java">Java<sup>2</sup></a></li>
